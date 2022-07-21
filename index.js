@@ -13,10 +13,11 @@ const main = () => {
 
   for (const { WEBSITE, EMAIL } of sitesToEmails) {
     let email = EMAIL.trim();
+    const website = WEBSITE.split(".")[0];
     email = email.includes(",") ? email.split(",") : email;
 
     if (typeof email === "string") {
-      sendFollowup({ to: email, followupNumber });
+      sendFollowup({ to: email, followupNumber, website });
       sentEmailCount++;
       console.log(`${sentEmailCount} EMAILS WERE SENT`);
       continue;
@@ -31,7 +32,7 @@ const main = () => {
     }
 
     for (const e of email) {
-      sendFollowup({ to: e, followupNumber });
+      sendFollowup({ to: e, followupNumber, website });
       sentEmailCount++;
       console.log(`${sentEmailCount} EMAILS WERE SENT`);
     }

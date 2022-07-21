@@ -2,7 +2,7 @@ import path from "path";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import getFirstFollowup from "./followups/get-first-followup.js";
-import getSignature from "./get-signature.js";
+import getSecondFollowup from "./followups/get-second-followup.js";
 
 dotenv.config();
 
@@ -17,10 +17,9 @@ const emailClient = nodemailer.createTransport({
 
 emailClient.verify().then(console.log).catch(console.error);
 
-export const sendFollowup = ({ to, followupNumber }) => {
-  const followupMap = { 1: getFirstFollowup };
-  const getSelectedFollowup = followupMap[followupNumber];
-  const { body, subject } = getSelectedFollowup();
+export const sendFollowup = ({ to, followupNumber, website }) => {
+  const followupMap = { 1: getFirstFollowup(), 2: getSecondFollowup(website) };
+  const { body, subject } = followupMap[followupNumber];
 
   emailClient
     .sendMail({
@@ -53,5 +52,5 @@ export const sendFollowup = ({ to, followupNumber }) => {
     })
     .catch(console.error);
 };
-sendFollowup({ to: "", followupNumber: 1 });
+
 export default sendFollowup;
