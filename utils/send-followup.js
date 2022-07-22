@@ -21,10 +21,10 @@ let sentEmailCount = 0;
 
 export const sendFollowup = ({ to, followupNumber, website }) => {
   const followupMap = {
-    1: getFirstFollowup(),
+    1: getFirstFollowup(website),
     2: getSecondFollowup(website),
     3: getThirdFollowup(website),
-    4: getFourthFollowup(),
+    4: getFourthFollowup(website),
   };
   const { body, subject } = followupMap[followupNumber];
 
