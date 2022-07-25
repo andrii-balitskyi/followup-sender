@@ -20,6 +20,8 @@ const emailClient = nodemailer.createTransport({
 let sentEmailCount = 0;
 
 export const sendFollowup = ({ to, followupNumber, website }) => {
+  console.log(`Sednig email to ${to}`);
+  console.log(`Website: ${website}`);
   const followupMap = {
     1: getFirstFollowup(website),
     2: getSecondFollowup(website),
