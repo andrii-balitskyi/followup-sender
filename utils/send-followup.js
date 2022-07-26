@@ -1,5 +1,4 @@
 import path from "path";
-import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import getFirstFollowup from "./followups/get-1-followup.js";
 import getSecondFollowup from "./followups/get-2-followup.js";
@@ -8,20 +7,11 @@ import getFourthFollowup from "./followups/get-4-followup.js";
 
 dotenv.config();
 
-const emailClient = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-});
-
 let sentEmailCount = 0;
 
-export const sendFollowup = ({ to, followupNumber, website }) => {
-  console.log(`Sednig email to ${to}`);
-  console.log(`Website: ${website}`);
+export const sendFollowup = ({ to, followupNumber, website, emailClient }) => {
+  // console.log(`Sending email to ${to}`);
+  // console.log(`Website: ${website}`);
   const followupMap = {
     1: getFirstFollowup(website),
     2: getSecondFollowup(website),
