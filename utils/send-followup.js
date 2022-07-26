@@ -9,7 +9,7 @@ dotenv.config();
 
 let sentEmailCount = 0;
 
-export const sendFollowup = ({ to, followupNumber, website, emailClient }) => {
+export const sendFollowup = ({ to, followupNumber, website, gmailClient }) => {
   // console.log(`Sending email to ${to}`);
   // console.log(`Website: ${website}`);
   const followupMap = {
@@ -20,7 +20,7 @@ export const sendFollowup = ({ to, followupNumber, website, emailClient }) => {
   };
   const { body, subject } = followupMap[followupNumber];
 
-  emailClient
+  gmailClient
     .sendMail({
       from: process.env.EMAIL,
       to,

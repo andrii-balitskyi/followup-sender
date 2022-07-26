@@ -2,65 +2,47 @@ import xlsxToJson from "./utils/xlsx-to-json.js";
 import path from "path";
 import sendFollowup from "./utils/send-followup.js";
 import formatWebsite from "./utils/format-website.js";
-import nodemailer from "nodemailer";
+import { sleep } from "./utils/sleep.js";
+import { formatEmailsInArray } from "./utils/format-emails-in-array.js";
+import { getGmailClient } from "./utils/get-gmail-client.js";
 
 if (!["1", "2", "3", "4"].includes(process.argv[2])) {
   throw new Error("Unknown followup number");
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 const main = async () => {
-  const sitesToEmails = xlsxToJson(path.resolve("followups.xlsx"));
+  let sitesToEmails = xlsxToJson(path.resolve("followups.xlsx"));
   const followupNumber = process.argv[2];
 
-  const emailClient = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    pool: true,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-  });
+  do {
+    const gmailClient = getGmailClient();
+    const firstFiftySitesToEmails = sitesToEmails.splice(0, 50);
 
-  for (const { WEBSITE, EMAIL } of sitesToEmails) {
-    let email = EMAIL.trim();
-    console.log(WEBSITE);
-    const website = formatWebsite(WEBSITE);
-    console.log(`WEBSITE: ${website}`);
-    email = email.includes(",") ? email.split(",") : email;
+    for (const { WEBSITE, EMAIL } of firstFiftySitesToEmails) {
+      let email = EMAIL.trim();
+      const website = formatWebsite(WEBSITE);
+      console.log(`WEBSITE: ${website}`);
+      email = email.includes(",") ? email.split(",") : email;
 
-    if (typeof email === "string") {
-      console.log(`EMAIL: ${email}`);
-      sendFollowup({ to: email, followupNumber, website, emailClient });
-      await sleep(1000);
+      if (typeof email === "string") {
+        console.log(`EMAIL: ${email}`);
+        sendFollowup({ to: email, followupNumber, website, gmailClient });
+        await sleep(1000);
 
-      continue;
+        continue;
+      }
+
+      email = formatEmailsInArray(email);
+
+      for (const e of email) {
+        console.log(`EMAIL: ${e}`);
+        sendFollowup({ to: e, followupNumber, website, gmailClient });
+        await sleep(1000);
+      }
     }
 
-    if (Array.isArray(email)) {
-      email = email.map((e) =>
-        e.includes('"') ? e.replace(/"/g, "").trim() : e.trim()
-      );
-    }
-
-    if (email[0].includes("<")) {
-      email = email.map((e) => e.split("<")[0].trim());
-    }
-
-    for (const e of email) {
-      console.log(`EMAIL: ${e}`);
-      sendFollowup({ to: e, followupNumber, website, emailClient });
-      await sleep(1000);
-    }
-  }
-
-  emailClient.close();
+    gmailClient.close();
+  } while (sitesToEmails.length !== 0);
 };
 
 main();
