@@ -16,7 +16,7 @@ const main = async () => {
 
   do {
     const gmailClient = getGmailClient();
-    const firstFiftySitesToEmails = sitesToEmails.splice(0, 50);
+    const firstFiftySitesToEmails = sitesToEmails.splice(0, 40);
 
     for (const { WEBSITE, EMAIL } of firstFiftySitesToEmails) {
       let email = EMAIL.trim();
@@ -42,6 +42,7 @@ const main = async () => {
     }
 
     gmailClient.close();
+    await sleep(300000);
   } while (sitesToEmails.length !== 0);
 };
 
