@@ -1,5 +1,5 @@
 export const getThirdFollowup = (website) => {
-  const followupSubject = `${website}, ready to start?`;
+  const followupSubject = `${website} | Pixfuture Advertising Inquiry?`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>

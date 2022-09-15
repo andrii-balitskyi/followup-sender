@@ -1,5 +1,5 @@
-export const getSecondFollowup = (email) => {
-  const followupSubject = "Would you like to discuss the next steps?";
+export const getSecondFollowup = (website) => {
+  const followupSubject = `${website} | Pixfuture Advertising Inquiry`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
@@ -9,7 +9,7 @@ export const getSecondFollowup = (email) => {
       
       <p>I am reaching out with recent update on GoStory widget. We have onboarded a new demand partner for PMP deals, and we are now seeing an 40% increase in ad revenue for participating GoStory publishers.</p>
       
-      <p>I have suggested the ${email} domain to my upper management team and they approved.</p>
+      <p>I have suggested the ${website} domain to my upper management team and they approved.</p>
       
       <p>Would you like to jump on a call to discuss a possible partnership or chat via email?</p>
       

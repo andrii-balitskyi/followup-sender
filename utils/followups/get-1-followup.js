@@ -1,5 +1,5 @@
-export const getFirstFollowup = () => {
-  const followupSubject = "Trying to connect";
+export const getFirstFollowup = (website) => {
+  const followupSubject = `${website} | Pixfuture Advertising Inquiry`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
