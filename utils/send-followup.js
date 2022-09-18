@@ -4,21 +4,30 @@ import { getFirstFollowup } from "./followups/get-1-followup.js";
 import { getSecondFollowup } from "./followups/get-2-followup.js";
 import { getThirdFollowup } from "./followups/get-3-followup.js";
 import { getFourthFollowup } from "./followups/get-4-followup.js";
-import { getInitialEmail } from "./followups";
+import { getInitialEmail } from "./followups/index.js";
+import { responseEmailsData } from "../index.js";
+import { getCurrentFormattedDate } from "./get-current-formatted-date.js";
+import formatWebsite from "./format-website.js";
 
 dotenv.config();
 
 let sentEmailCount = 0;
 
-export const sendFollowup = ({ to, followupNumber, website, gmailClient }) => {
-  // console.log(`Sending email to ${to}`);
-  // console.log(`Website: ${website}`);
+export const sendFollowup = ({
+  to,
+  followupNumber,
+  website,
+  gmailClient,
+  messageId,
+}) => {
+  const formattedWebsite = formatWebsite(website);
+  console.log(`WEBSITE: ${formattedWebsite}`);
   const followupMap = {
-    0: getInitialEmail(website),
-    1: getFirstFollowup(website),
-    2: getSecondFollowup(website),
-    3: getThirdFollowup(website),
-    4: getFourthFollowup(website),
+    0: getInitialEmail(formattedWebsite),
+    1: getFirstFollowup(formattedWebsite),
+    2: getSecondFollowup(formattedWebsite),
+    3: getThirdFollowup(formattedWebsite),
+    4: getFourthFollowup(formattedWebsite),
   };
   const { body, subject } = followupMap[followupNumber];
 
@@ -28,6 +37,7 @@ export const sendFollowup = ({ to, followupNumber, website, gmailClient }) => {
       to,
       subject,
       html: body,
+      inReplyTo: messageId ?? null,
       attachments: [
         {
           filename: "download.jpeg",
@@ -36,8 +46,14 @@ export const sendFollowup = ({ to, followupNumber, website, gmailClient }) => {
         },
       ],
     })
-    .then((then) => {
-      console.log({ then });
+    .then((emailRes) => {
+      responseEmailsData.push({
+        EMAIL: to,
+        DATE: getCurrentFormattedDate(),
+        WEBSITE: website,
+        MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),
+      });
+
       console.log(`${++sentEmailCount} EMAILS SENT`);
     })
     .catch(console.error);
