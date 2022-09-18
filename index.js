@@ -6,7 +6,7 @@ import { sleep } from "./utils/sleep.js";
 import { formatEmailsInArray } from "./utils/format-emails-in-array.js";
 import { getGmailClient } from "./utils/get-gmail-client.js";
 
-if (!["1", "2", "3", "4"].includes(process.argv[2])) {
+if (!["0", "1", "2", "3", "4"].includes(process.argv[2])) {
   throw new Error("Unknown followup number");
 }
 
