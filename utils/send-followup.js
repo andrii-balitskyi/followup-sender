@@ -19,6 +19,7 @@ export const sendFollowup = ({
   website,
   gmailClient,
   messageId,
+  date,
 }) => {
   const formattedWebsite = formatWebsite(website);
   console.log(`WEBSITE: ${formattedWebsite}`);
@@ -50,7 +51,7 @@ export const sendFollowup = ({
       if (!messageId) {
         responseEmailsData.push({
           EMAIL: to,
-          DATE: getCurrentFormattedDate(),
+          DATE: getCurrentFormattedDate(date),
           WEBSITE: website,
           MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),
         });

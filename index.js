@@ -20,8 +20,12 @@ const main = async () => {
     const gmailClient = getGmailClient();
     const firstFiftySitesToEmails = sitesToEmails.splice(0, 40);
 
-    for (const { WEBSITE, EMAIL, MESSAGE_ID } of firstFiftySitesToEmails) {
-      console.log({ MESSAGE_ID });
+    for (const {
+      WEBSITE,
+      DATE,
+      EMAIL,
+      MESSAGE_ID,
+    } of firstFiftySitesToEmails) {
       let email = EMAIL.trim();
       email = email.includes(",") ? email.split(",") : email;
 
@@ -33,7 +37,9 @@ const main = async () => {
           website: WEBSITE,
           gmailClient,
           messageId: MESSAGE_ID,
+          date: DATE,
         });
+
         await sleep(1000);
 
         continue;
@@ -49,7 +55,9 @@ const main = async () => {
           website: WEBSITE,
           gmailClient,
           messageId: MESSAGE_ID,
+          date: DATE,
         });
+
         await sleep(1000);
       }
     }
