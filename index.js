@@ -55,8 +55,7 @@ const main = async () => {
     }
 
     gmailClient.close();
-    await sleep(3000);
-    // 300000
+    await sleep(300000);
   } while (sitesToEmails.length !== 0);
 
   jsonToXlsx(responseEmailsData);
