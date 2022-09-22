@@ -50,7 +50,7 @@ export const sendFollowup = ({
     .then((emailRes) => {
       if (!messageId) {
         responseEmailsData.push({
-          EMAIL: to,
+          EMAIL: Array.isArray(to) ? to.join(", ") : to,
           DATE: getCurrentFormattedDate(date),
           WEBSITE: website,
           MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),

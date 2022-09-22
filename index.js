@@ -29,41 +29,32 @@ const main = async () => {
       let email = EMAIL.trim();
       email = email.includes(",") ? email.split(",") : email;
 
-      if (typeof email === "string") {
-        console.log(`EMAIL: ${email}`);
-        sendFollowup({
-          to: email,
-          followupNumber,
-          website: WEBSITE,
-          gmailClient,
-          messageId: MESSAGE_ID,
-          date: DATE,
-        });
-
-        await sleep(1000);
-
-        continue;
+      if (Array.isArray(email)) {
+        email = formatEmailsInArray(email);
       }
 
-      email = formatEmailsInArray(email);
+      console.log(`EMAIL: ${email}`);
+      sendFollowup({
+        to: email,
+        followupNumber,
+        website: WEBSITE,
+        gmailClient,
+        messageId: MESSAGE_ID,
+        date: DATE,
+      });
 
-      for (const e of email) {
-        console.log(`EMAIL: ${e}`);
-        sendFollowup({
-          to: e,
-          followupNumber,
-          website: WEBSITE,
-          gmailClient,
-          messageId: MESSAGE_ID,
-          date: DATE,
-        });
+      await sleep(1000);
 
-        await sleep(1000);
-      }
+      continue;
     }
 
     gmailClient.close();
-    await sleep(300000);
+
+    if (sitesToEmails.length === 0) {
+      await sleep(5000);
+    } else {
+      await sleep(300000);
+    }
   } while (sitesToEmails.length !== 0);
 
   jsonToXlsx(responseEmailsData);
