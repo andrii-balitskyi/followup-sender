@@ -47,12 +47,14 @@ export const sendFollowup = ({
       ],
     })
     .then((emailRes) => {
-      responseEmailsData.push({
-        EMAIL: to,
-        DATE: getCurrentFormattedDate(),
-        WEBSITE: website,
-        MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),
-      });
+      if (!messageId) {
+        responseEmailsData.push({
+          EMAIL: to,
+          DATE: getCurrentFormattedDate(),
+          WEBSITE: website,
+          MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),
+        });
+      }
 
       console.log(`${++sentEmailCount} EMAILS SENT`);
     })
