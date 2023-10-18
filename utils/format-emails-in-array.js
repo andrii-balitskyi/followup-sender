@@ -1,4 +1,6 @@
-export const formatEmailsInArray = (emailArray) => {
+export const formatEmail = (email) => {
+  const emailArray = Array.isArray(email) ? email : [email];
+
   let formattedEmails = emailArray.map((e) =>
     e.includes('"') ? e.replace(/"/g, "").trim() : e.trim()
   );
@@ -10,4 +12,4 @@ export const formatEmailsInArray = (emailArray) => {
   return formattedEmails;
 };
 
-export default formatEmailsInArray;
+export default formatEmail;

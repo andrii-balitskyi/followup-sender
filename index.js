@@ -2,19 +2,22 @@ import xlsxToJson from "./utils/xlsx-to-json.js";
 import path from "path";
 import sendFollowup from "./utils/send-followup.js";
 import { sleep } from "./utils/sleep.js";
-import { formatEmailsInArray } from "./utils/format-emails-in-array.js";
+import { formatEmail } from "./utils/format-emails-in-array.js";
 import { getGmailClient } from "./utils/get-gmail-client.js";
-import { jsonToXlsx } from "./utils/json-to-xlsx.js";
+import { writeJsonToXlsxFile } from "./utils/json-to-xlsx.js";
 
 if (!["0", "1", "2", "3", "4"].includes(process.argv[2])) {
   throw new Error("Unknown followup number");
 }
 
-export const responseEmailsData = [];
+export const successfulEmailResponseData = [];
+export const failedEmailResponseData = [];
 
 const main = async () => {
   let sitesToEmails = xlsxToJson(path.resolve("followups.xlsx"));
   const followupNumber = process.argv[2];
+  let sentEmailCount = 0;
+  let failedEmailCount = 0;
 
   do {
     const gmailClient = getGmailClient();
@@ -29,14 +32,10 @@ const main = async () => {
       let email = EMAIL?.trim();
       if (!email) continue;
 
-      email = email?.includes(",") ? email?.split(",") : email;
+      email = formatEmail(email?.includes(",") ? email?.split(",") : email);
 
-      if (Array.isArray(email)) {
-        email = formatEmailsInArray(email);
-      }
-
-      console.log(`EMAIL: ${email}`);
-      sendFollowup({
+      console.log(`EMAILS: ${email}`);
+      const response = await sendFollowup({
         to: email,
         followupNumber,
         website: WEBSITE,
@@ -44,6 +43,17 @@ const main = async () => {
         messageId: MESSAGE_ID,
         date: DATE,
       });
+
+      if (response.success) {
+        // Don't save response if MESSAGE_ID was already assigned
+        if (!MESSAGE_ID) successfulEmailResponseData.push(response);
+
+        console.log(`${++sentEmailCount} EMAILS SENT`);
+      } else {
+        failedEmailResponseData.push(response);
+
+        console.log(`${++failedEmailCount} EMAILS FAILED TO SEND`);
+      }
 
       await sleep(1000);
 
@@ -59,9 +69,21 @@ const main = async () => {
     }
   } while (sitesToEmails.length !== 0);
 
-  if (responseEmailsData.length === 0) return;
+  if (successfulEmailResponseData.length > 0) {
+    writeJsonToXlsxFile({
+      jsonData: successfulEmailResponseData,
+      filePath: "followups_with_ids.xlsx",
+      worksheetHeaders: ["WEBSITE", "DATE", "EMAIL", "MESSAGE_ID"],
+    });
+  }
 
-  jsonToXlsx(responseEmailsData);
+  if (failedEmailResponseData.length > 0) {
+    writeJsonToXlsxFile({
+      jsonData: failedEmailResponseData,
+      filePath: "followups_with_errors.xlsx",
+      worksheetHeaders: ["WEBSITE", "DATE", "EMAIL", "ERROR_MESSAGE"],
+    });
+  }
 };
 
 main();

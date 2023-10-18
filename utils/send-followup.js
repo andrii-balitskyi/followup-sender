@@ -1,17 +1,15 @@
 import path from "path";
 import dotenv from "dotenv";
-import { getFirstFollowup } from "./followups/get-1-followup.js";
-import { getSecondFollowup } from "./followups/get-2-followup.js";
-import { getThirdFollowup } from "./followups/get-3-followup.js";
-import { getFourthFollowup } from "./followups/get-4-followup.js";
-import { getInitialEmail } from "./followups/index.js";
-import { responseEmailsData } from "../index.js";
-import { getCurrentFormattedDate } from "./get-current-formatted-date.js";
+import {
+  getInitialEmail,
+  getFirstFollowup,
+  getSecondFollowup,
+  getThirdFollowup,
+  getFourthFollowup,
+} from "./followups/index.js";
 import formatWebsite from "./format-website.js";
 
 dotenv.config();
-
-let sentEmailCount = 0;
 
 export const sendFollowup = async ({
   to,
@@ -32,13 +30,24 @@ export const sendFollowup = async ({
   };
   const { body, subject } = followupMap[followupNumber];
 
+  const responseBase = {
+    EMAIL: Array.isArray(to) ? to.join(", ") : to,
+    DATE:
+      typeof date === "number"
+        ? new Date((date - 25569) * 86400 * 1000).toISOString().split("T")[0]
+        : "",
+
+    WEBSITE: website,
+  };
+
   try {
     const sentEmailData = await gmailClient.sendMail({
       from: process.env.EMAIL,
       to,
       subject,
       html: body,
-      inReplyTo: messageId ?? null,
+      inReplyTo: messageId ?? undefined,
+      references: messageId ?? undefined,
       attachments: [
         {
           filename: "download.jpeg",
@@ -48,18 +57,19 @@ export const sendFollowup = async ({
       ],
     });
 
-    if (!messageId) {
-      responseEmailsData.push({
-        EMAIL: Array.isArray(to) ? to.join(", ") : to,
-        DATE: getCurrentFormattedDate(date),
-        WEBSITE: website,
-        MESSAGE_ID: sentEmailData.messageId.replace(/[<|>]/g, ""),
-      });
-    }
-
-    console.log(`${++sentEmailCount} EMAILS SENT`);
+    return {
+      ...responseBase,
+      MESSAGE_ID: sentEmailData.messageId.replace(/[<|>]/g, ""),
+      success: true,
+    };
   } catch (err) {
     console.error(err);
+
+    return {
+      ...responseBase,
+      ERROR_MESSAGE: `${err?.name}: ${err?.message}`,
+      success: false,
+    };
   }
 };
 

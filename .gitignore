@@ -4,3 +4,6 @@ node_modules
 ~$followups_with_ids.xlsx
 followups_with_ids.xlsx
 utils/followups
+~$followups_with_errors.xlsx
+followups_with_errors.xlsx
+followups.xlsx
