@@ -13,7 +13,7 @@ dotenv.config();
 
 let sentEmailCount = 0;
 
-export const sendFollowup = ({
+export const sendFollowup = async ({
   to,
   followupNumber,
   website,
@@ -32,8 +32,8 @@ export const sendFollowup = ({
   };
   const { body, subject } = followupMap[followupNumber];
 
-  gmailClient
-    .sendMail({
+  try {
+    const sentEmailData = await gmailClient.sendMail({
       from: process.env.EMAIL,
       to,
       subject,
@@ -46,20 +46,21 @@ export const sendFollowup = ({
           cid: "logo",
         },
       ],
-    })
-    .then((emailRes) => {
-      if (!messageId) {
-        responseEmailsData.push({
-          EMAIL: Array.isArray(to) ? to.join(", ") : to,
-          DATE: getCurrentFormattedDate(date),
-          WEBSITE: website,
-          MESSAGE_ID: emailRes.messageId.replace(/[<|>]/g, ""),
-        });
-      }
+    });
 
-      console.log(`${++sentEmailCount} EMAILS SENT`);
-    })
-    .catch(console.error);
+    if (!messageId) {
+      responseEmailsData.push({
+        EMAIL: Array.isArray(to) ? to.join(", ") : to,
+        DATE: getCurrentFormattedDate(date),
+        WEBSITE: website,
+        MESSAGE_ID: sentEmailData.messageId.replace(/[<|>]/g, ""),
+      });
+    }
+
+    console.log(`${++sentEmailCount} EMAILS SENT`);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export default sendFollowup;

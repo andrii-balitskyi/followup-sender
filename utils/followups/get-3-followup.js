@@ -1,15 +1,15 @@
 export const getThirdFollowup = (website) => {
-  const followupSubject = `${website} | Pixfuture Advertising Inquiry?`;
+  const followupSubject = `${website} | Make Q4 Profitable with PixFuture!`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
-      <p>Good morning,</p>
+      <p>Hi,</p>
 
-      <p>Today we have had some direct advertisers inquiring about ${website}. Please let me know if you are open to discuss GoStory integration on your website, or you would like to move forward to the other direction for now.</p>
+      <p>Please let me know if you are open to discussing PixFuture integration on your website, or if you would like to move forward in the other direction for now.</p>
       
-      <p>I am looking forward for your reply.</p>
+      <p>All our 300+ demand partners are ready to provide the High-CPM campaigns during the Q4 and we can connect them to your website.</p>
       
-      <p>Sincerely,</p>
+      <p>Regards,</p>
       <table style="margin-top: 10px; margin-bottom: 30px; width: 95%; border: 0">
         <tr height="45">
           <td width="40">

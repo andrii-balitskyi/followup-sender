@@ -1,21 +1,15 @@
 export const getInitialEmail = (website) => {
-  const emailSubject = `${website} | Pixfuture Advertising Inquiry`;
+  const emailSubject = `${website} | Make Q4 Profitable with PixFuture!`;
   const emailBody = `
     <body>
       <span style="opacity: 0"></span>
-      <p>Good afternoon,</p>
+      <p>I'm Andrii from PixFuture, a Canada-based advertising buying agency.</p>
 
-      <p>This is Andrii from PixFuture, the programmatic ad platform for publishers.</p>
+      <p>I hope this email finds you well. As we approach the highly anticipated Q4 market season, I wanted to reach out to discuss ${website} online advertising placement on your website for our campaigns. We want to push our exclusive programmatic ads to participate in the CPM bidding with our exciting formats.</p>
 
-      <p>Are you interested in an additional stream of ad revenue by increasing your website engagement rate?</p>
+      <p>Let's make this Q4 a profitable together!</p>
 
-      <p>We would like to offer you GoStory Player, which is a carousel widget that helps publishers feature and monetize their own content. It's a unique tool for publishers/bloggers to engage with their audience and earn revenue from content stories.</p>
-
-      <p>Our GoStory player shows on average a 50-120% increase in a revenue stream to your business, with little to no technical overheads. Additionally, publishers see an increase in page views, time spent, and return rate by up to 3x.</p>
-
-      <p>Is this new innovative monetization format something you want to try on your website?</p>
-
-      <p>Kind Regards,</p>
+      <p>Best regards,</p>
       <table style="margin-top: 10px; margin-bottom: 30px; width: 95%; border: 0">
         <tr height="45">
           <td width="40">

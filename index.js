@@ -18,16 +18,18 @@ const main = async () => {
 
   do {
     const gmailClient = getGmailClient();
-    const firstFiftySitesToEmails = sitesToEmails.splice(0, 40);
+    const firstThirtySitesToEmails = sitesToEmails.splice(0, 30);
 
     for (const {
       WEBSITE,
       DATE,
       EMAIL,
       MESSAGE_ID,
-    } of firstFiftySitesToEmails) {
-      let email = EMAIL.trim();
-      email = email.includes(",") ? email.split(",") : email;
+    } of firstThirtySitesToEmails) {
+      let email = EMAIL?.trim();
+      if (!email) continue;
+
+      email = email?.includes(",") ? email?.split(",") : email;
 
       if (Array.isArray(email)) {
         email = formatEmailsInArray(email);
@@ -56,6 +58,8 @@ const main = async () => {
       await sleep(300000);
     }
   } while (sitesToEmails.length !== 0);
+
+  if (responseEmailsData.length === 0) return;
 
   jsonToXlsx(responseEmailsData);
 };

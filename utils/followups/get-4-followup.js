@@ -1,25 +1,15 @@
 export const getFourthFollowup = (website) => {
-  const followupSubject = `${website} | Pixfuture Advertising Inquiry`;;
+  const followupSubject = `${website} | Make Q4 Profitable with PixFuture!`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
-      <p>Hello,</p>
+      <p>Hi,</p>
 
-      <p>Thank you for your time and patience with my follow-up emails. I was truly looking forward to working with you, but since I have not yet received a reply, it's time to clean up the CRM.</p>
+      <p>I hope you are doing well!</p>
 
-      <p>In case you missed my previous emails, here is a summary:</p>
-      <ul style="list-style-type:disc">
-        <li>We are interested to become a programmatic partner of your website</li>
-        <li>We provide Video, Display and GoStory Player Ads</li>
-        <li>This is the <a href="https://www.pixfuture.com/request-publisher-approval-268745/" target="_blank">form to get started</a> if you would like to test</li>
-      </ul>
-      <p>
-        If still interested, please let me know by replying to this email with a follow-up date so I can check back by then.
-      </p>
+      <p>I have not heard back from you and assume you are not interested in a partnership with PixFuture at the moment. I have to clean up the CRM and close your account, so our advertisers know that you are unavailable for Q4 ad campaigns.</p>
 
-      <p>Once again, thank you, and hope you have a great week ahead!</p>
-
-      <p>Best Regards,</p>
+      <p>Regards,</p>
       <table style="margin-top: 10px; margin-bottom: 30px; width: 95%; border: 0">
         <tr height="45">
           <td width="40">

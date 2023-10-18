@@ -1,19 +1,20 @@
 export const getFirstFollowup = (website) => {
-  const followupSubject = `${website} | Pixfuture Advertising Inquiry`;
+  const followupSubject = `${website} | Make Q4 Profitable with PixFuture!`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
       <p>Hello,</p>
 
-      <p>This is Andrii from Pixfuture. I wanted to reach out in case you missed the email I have sent your way yesterday.</p>
+      <p>I wanted to reach out to ask if you had time to review our offer.</p>
       
-      <p>We would like to offer a unique GoStory widget for your website, which is an innovative engagement and monetization tool.</p>
+      <p style="margin-bottom:0px;">I believe we’d be able to significantly increase your ad revenue in Q4 with our programmatic solutions, such as:</p>
+      <ul style="margin-top:0px;list-style-type:disc">
+        <li>GoStory content widget, example <a target="_blank" style="text-decoration:none;" href="https://pixfuture.com/gostory">pixfuture.com/gostory</a></li>
+        <li>Native Video, example <a target="_blank" style="text-decoration:none;" href="https://pixfuture.com/desktop-video">pixfuture.com/desktop-video</a></li>
+        <li>Display Banners, sizes 300x250, 300x600, 160x600, 728x90, 970x250, and etc..</li>
+      </ul>
       
-      <p>Please let me know if you are the right person to discuss this unique format or perhaps give me directions.</p>
-      
-      <p>I am looking forward to hear back from you.</p>
-      
-      <p>Kind Regards,</p>
+      <p>Regards,</p>
       <table style="margin-top: 10px; margin-bottom: 30px; width: 95%; border: 0">
         <tr height="45">
           <td width="40">

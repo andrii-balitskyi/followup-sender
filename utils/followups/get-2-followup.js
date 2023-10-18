@@ -1,19 +1,17 @@
 export const getSecondFollowup = (website) => {
-  const followupSubject = `${website} | Pixfuture Advertising Inquiry`;
+  const followupSubject = `${website} | Make Q4 Profitable with PixFuture!`;
   const followupBody = `
     <body>
       <span style="opacity: 0"></span>
       <p>Hello,</p>
 
-      <p>This is Andrii from PixFuture Media.</p>
+      <p>I have not heard back from you since last email.</p>
       
-      <p>I am reaching out with recent update on GoStory widget. We have onboarded a new demand partner for PMP deals, and we are now seeing an 40% increase in ad revenue for participating GoStory publishers.</p>
+      <p>I understand the value of your time and I'd like to know what's the best way to reach you. We have great high-CPM campaigns from exclusive demand ready to be displayed on ${website}!</p>
+
+      <p>Market season already started and we’re willing to help you get the best from it!</p>
       
-      <p>I have suggested the ${website} domain to my upper management team and they approved.</p>
-      
-      <p>Would you like to jump on a call to discuss a possible partnership or chat via email?</p>
-      
-      <p>Kind Regards,</p>
+      <p>Regards,</p>
       <table style="margin-top: 10px; margin-bottom: 30px; width: 95%; border: 0">
         <tr height="45">
           <td width="40">
