@@ -46,11 +46,22 @@ const main = async () => {
 
       if (response.success) {
         // Don't save response if MESSAGE_ID was already assigned
-        if (!MESSAGE_ID) successfulEmailResponseData.push(response);
+        if (!MESSAGE_ID)
+          successfulEmailResponseData.push({
+            EMAIL: response.EMAIL,
+            DATE: response.DATE,
+            WEBSITE: response.WEBSITE,
+            MESSAGE_ID: response.MESSAGE_ID,
+          });
 
         console.log(`${++sentEmailCount} EMAILS SENT`);
       } else {
-        failedEmailResponseData.push(response);
+        failedEmailResponseData.push({
+          WEBSITE: response.WEBSITE,
+          DATE: response.DATE,
+          EMAIL: response.EMAIL,
+          ERROR_MESSAGE: response.ERROR_MESSAGE,
+        });
 
         console.log(`${++failedEmailCount} EMAILS FAILED TO SEND`);
       }
@@ -72,7 +83,7 @@ const main = async () => {
   if (successfulEmailResponseData.length > 0) {
     writeJsonToXlsxFile({
       jsonData: successfulEmailResponseData,
-      filePath: "followups_with_ids.xlsx",
+      fileName: "followups_with_ids.xlsx",
       worksheetHeaders: ["WEBSITE", "DATE", "EMAIL", "MESSAGE_ID"],
     });
   }
@@ -80,7 +91,7 @@ const main = async () => {
   if (failedEmailResponseData.length > 0) {
     writeJsonToXlsxFile({
       jsonData: failedEmailResponseData,
-      filePath: "followups_with_errors.xlsx",
+      fileName: "followups_with_errors.xlsx",
       worksheetHeaders: ["WEBSITE", "DATE", "EMAIL", "ERROR_MESSAGE"],
     });
   }

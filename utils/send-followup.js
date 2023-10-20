@@ -30,7 +30,7 @@ export const sendFollowup = async ({
   };
   const { body, subject } = followupMap[followupNumber];
 
-  const responseBase = {
+  const responseResultBase = {
     EMAIL: Array.isArray(to) ? to.join(", ") : to,
     DATE:
       typeof date === "number"
@@ -58,7 +58,7 @@ export const sendFollowup = async ({
     });
 
     return {
-      ...responseBase,
+      ...responseResultBase,
       MESSAGE_ID: sentEmailData.messageId.replace(/[<|>]/g, ""),
       success: true,
     };
@@ -66,7 +66,7 @@ export const sendFollowup = async ({
     console.error(err);
 
     return {
-      ...responseBase,
+      ...responseResultBase,
       ERROR_MESSAGE: `${err?.name}: ${err?.message}`,
       success: false,
     };
